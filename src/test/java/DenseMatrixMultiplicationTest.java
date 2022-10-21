@@ -28,7 +28,7 @@ public class DenseMatrixMultiplicationTest {
     }
 
     @Test
-    public void should_multiply_two_random_double_matrices() {
+    public void should_multiply_two_random_dense_matrices() {
         Matrix a = randomMatrix();
         Matrix b = randomMatrix();
         Matrix c = multiplication.execute(a,b);

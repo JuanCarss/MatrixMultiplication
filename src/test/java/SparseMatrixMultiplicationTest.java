@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @RunWith(Parameterized.class)
 public class SparseMatrixMultiplicationTest {
-    private final int SIZE = 50;
+    private final int SIZE = 1024;
     private final Multiplication multiplication;
 
     public SparseMatrixMultiplicationTest(Multiplication multiplication) {

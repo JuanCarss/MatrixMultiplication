@@ -22,7 +22,7 @@ public class CompressedSparseMatrixMultiplication implements Multiplication {
                 int iEnd = A.rowPointers[i+1];
                 int jj = B.colPointers[j];
                 int jEnd = B.colPointers[j+1];
-                long sum = 0;
+                double sum = 0;
                 while (ii < iEnd && jj < jEnd) {
                     int aa = A.columns[ii];
                     int bb = B.rows[jj];
