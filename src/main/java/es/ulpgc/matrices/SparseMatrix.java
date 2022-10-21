@@ -18,7 +18,7 @@ public class SparseMatrix implements Matrix {
     public double value(int row, int col) {
         if (row > size() || col > size()) throw new RuntimeException("Exceeded the matrix length");
         return values.stream().filter(coordinate -> coordinate.checkEquals(row, col))
-                .findFirst().stream().mapToDouble(coordinate -> coordinate.value).findFirst().orElse(0);
+            .findFirst().stream().mapToDouble(coordinate -> coordinate.value).findFirst().orElse(0);
     }
 
     @Override
@@ -36,5 +36,27 @@ public class SparseMatrix implements Matrix {
     @Override
     public double density() {
         return values.size() / Math.pow(size,2);
+    }
+
+    public static class Coordinate implements Comparable<Coordinate> {
+
+        public final int row;
+        public final int col;
+        public final double value;
+
+        public Coordinate(int row, int col, double value) {
+            this.row = row;
+            this.col = col;
+            this.value = value;
+        }
+
+        public boolean checkEquals(int newRow, int newCol) {
+            return (newRow == row && newCol == col);
+        }
+
+        @Override
+        public int compareTo(Coordinate o) {
+            return this.row - o.row;
+        }
     }
 }
