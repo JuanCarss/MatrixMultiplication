@@ -4,6 +4,8 @@ import es.ulpgc.Multiplication;
 import es.ulpgc.builders.SparseMatrixBuilder;
 import es.ulpgc.matrices.SparseMatrix;
 import es.ulpgc.multiplications.SparseMatrixStandardMultiplication;
+import es.ulpgc.multiplications.SparseMatrixTransposedMultiplication;
+import es.ulpgc.transposers.SparseMatrixTransposer;
 import org.openjdk.jmh.annotations.*;
 
 import java.util.ArrayList;
@@ -22,6 +24,9 @@ public class SparseMatrixMultiplicationBenchmark {
     public static void sparseMatrixMultiplication() {
         executeWith(new SparseMatrixStandardMultiplication());
     }
+
+    @Benchmark
+    public static void sparseMatrixTransposedMultiplication() {executeWith(new SparseMatrixTransposedMultiplication(new SparseMatrixTransposer()));}
 
     private static void executeWith(Multiplication implementation) {
         implementation.execute(sparseRandomMatrix(), sparseRandomMatrix());

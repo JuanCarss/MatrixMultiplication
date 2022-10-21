@@ -12,17 +12,17 @@ public class DenseMatrixParallelStreamMultiplication implements Multiplication {
 
     @Override
     public Matrix execute(Matrix a, Matrix b) {
-        checkisDenseMatrix(a);
-        checkisDenseMatrix(b);
+        checkIsDenseMatrix(a);
+        checkIsDenseMatrix(b);
         return new DenseMatrix(Arrays.stream(a.raw()).parallel()
                 .map(row -> IntStream.range(0, b.size())
-                        .mapToDouble(i -> IntStream.range(0, b.size())
-                                .mapToDouble(j -> row[j] * b.value(j, i)).sum())
+                        .mapToDouble(j -> IntStream.range(0, b.size())
+                                .mapToDouble(i -> row[i] * b.value(i, j)).sum())
                         .toArray())
                 .toArray(double[][]::new));
     }
 
-    private void checkisDenseMatrix(Matrix matrix) {
+    private void checkIsDenseMatrix(Matrix matrix) {
         if (matrix instanceof DenseMatrix) return;
         throw new MatrixException("Supplied Matrix is of unsupported type");
     }
