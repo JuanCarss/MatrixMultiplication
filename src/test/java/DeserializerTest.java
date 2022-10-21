@@ -37,7 +37,6 @@ public class DeserializerTest {
     @Parameterized.Parameters
     public static Collection<MatrixDeserializer> implementations() {
         return List.of(
-            new MtxToCssDeserializer(),
             new MtxToSparseDeserializer()
         );
     }
