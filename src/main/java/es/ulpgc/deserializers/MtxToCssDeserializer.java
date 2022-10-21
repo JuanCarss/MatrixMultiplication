@@ -14,9 +14,10 @@ import java.util.List;
 public class MtxToCssDeserializer implements MatrixDeserializer {
 
     private final List<Integer> rows = new ArrayList<>();
-    private int[] columnPointers;
     private final List<Double> values = new ArrayList<>();
+    private int[] columnPointers;
     private int previousColumn = 0;
+    private int size;
 
     @Override
     public CcsMatrix deserialize(String filename) {
@@ -36,12 +37,11 @@ public class MtxToCssDeserializer implements MatrixDeserializer {
     }
 
     private CcsMatrix readFile(BufferedReader reader) {
-        int size = reader.lines().filter(line -> !line.startsWith("%"))
+        size = reader.lines().filter(line -> !line.startsWith("%"))
             .map(this::getSize).findFirst().orElse(0);
         columnPointers = new int[size + 1];
-        reader.lines().filter(line -> !line.startsWith("%")).skip(1)
-            .forEach(line -> saveValues(getLineValues(line), previousColumn));
-        fillLastPointers(previousColumn, size);
+        reader.lines().forEach(line -> saveValues(getLineValues(line), previousColumn));
+        fillLastPointers(previousColumn);
         return new CcsMatrix(
             rows.stream()
                 .mapToInt(i->i)
@@ -52,9 +52,9 @@ public class MtxToCssDeserializer implements MatrixDeserializer {
         );
     }
 
-    private void fillLastPointers(int previousColumn, int size) {
-        for (int i = previousColumn; i < size + 1; i++) {
-            columnPointers[i + 1] = columnPointers[previousColumn];
+    private void fillLastPointers(int previousColumn) {
+        for (int i = previousColumn + 1; i < size + 1; i++) {
+            columnPointers[i] = this.values.size();
         }
     }
 
@@ -63,10 +63,10 @@ public class MtxToCssDeserializer implements MatrixDeserializer {
     }
 
     private void saveValues(double[] lineValues, int previousColumn) {
-        if (lineValues[1] != previousColumn) this.columnPointers[previousColumn] = this.values.size();
+        if ((lineValues[1] - 1) != previousColumn) this.columnPointers[(int) (lineValues[1] - 1)] = this.values.size();
         this.rows.add((int) lineValues[0] - 1);
         this.values.add(lineValues[2]);
-        this.previousColumn = (int) lineValues[1];
+        this.previousColumn = (int) lineValues[1] - 1;
     }
 
     private double[] getLineValues(String line) {
