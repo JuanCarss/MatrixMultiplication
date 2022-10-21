@@ -1,11 +1,6 @@
 import es.ulpgc.Matrix;
-import es.ulpgc.MatrixBuilder;
 import es.ulpgc.MatrixDeserializer;
-import es.ulpgc.builders.DenseMatrixBuilder;
-import es.ulpgc.builders.SparseMatrixBuilder;
-import es.ulpgc.deserializers.MtxToCssDeserializer;
 import es.ulpgc.deserializers.MtxToSparseDeserializer;
-import es.ulpgc.matrices.CcsMatrix;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -13,7 +8,7 @@ import org.junit.runners.Parameterized;
 import java.util.Collection;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @RunWith(Parameterized.class)

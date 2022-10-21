@@ -1,8 +1,6 @@
 package es.ulpgc.deserializers;
 
 import es.ulpgc.MatrixDeserializer;
-import es.ulpgc.matrices.CcsMatrix;
-import es.ulpgc.matrices.Coordinate;
 import es.ulpgc.matrices.SparseMatrix;
 
 import java.io.BufferedReader;
@@ -15,7 +13,7 @@ import java.util.List;
 
 public class MtxToSparseDeserializer implements MatrixDeserializer {
 
-    private final List<Coordinate> items = new ArrayList<>();
+    private final List<SparseMatrix.Coordinate> items = new ArrayList<>();
     private int size;
 
     @Override
@@ -47,7 +45,7 @@ public class MtxToSparseDeserializer implements MatrixDeserializer {
     }
 
     private void saveValues(double[] lineValues) {
-        this.items.add(new Coordinate((int) lineValues[0] - 1, (int) lineValues[1] - 1, lineValues[2]));
+        this.items.add(new SparseMatrix.Coordinate((int) lineValues[0] - 1, (int) lineValues[1] - 1, lineValues[2]));
     }
 
     private double[] getLineValues(String line) {

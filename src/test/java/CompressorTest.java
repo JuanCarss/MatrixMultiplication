@@ -44,7 +44,7 @@ public class CompressorTest {
         double[] values = {5d,8d,6d,3d};
         CcsMatrix ccsMatrix = (CcsMatrix) new CcsCompressor(matrix).compress();
         assertThat(rows).isEqualTo(ccsMatrix.rows);
-        assertThat(columnPointers).isEqualTo(ccsMatrix.columnPointers);
+        assertThat(columnPointers).isEqualTo(ccsMatrix.colPointers);
         assertThat(values).isEqualTo(ccsMatrix.values);
     }
 
