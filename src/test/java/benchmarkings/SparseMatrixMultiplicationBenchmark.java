@@ -18,7 +18,7 @@ import java.util.Random;
 @Warmup(iterations = 3, time = 2)
 @Measurement(iterations = 3, time = 2)
 public class SparseMatrixMultiplicationBenchmark {
-    private static final int SIZE = 1024;
+    private static final int SIZE = 20;
     private static final Random random = new Random();
 
     @Benchmark
@@ -30,27 +30,25 @@ public class SparseMatrixMultiplicationBenchmark {
     public static void sparseMatrixTransposedMultiplication() {executeWith(new SparseMatrixTransposedMultiplication(new SparseMatrixTransposer()));}
 
     private static void executeWith(Multiplication implementation) {
-        implementation.execute(sparseRandomMatrix(), sparseRandomMatrix());
+        implementation.execute(randomSparseMatrix(), randomSparseMatrix());
     }
 
-    private static Matrix sparseRandomMatrix() {
+    private static Matrix randomSparseMatrix() {
         Random random = new Random();
         SparseMatrixBuilder builder = new SparseMatrixBuilder(SIZE);
-        for (int column = 0; column < SIZE; column++) {
-            List<Integer> randomPositions = getRandomPositions(random);
-            for (int row : randomPositions) {
-                builder.set(row, column ,random.nextDouble());
-            }
+        for (int i = 0; i < SIZE; i++) {
+            List<Integer> positions = RandomPositions(random);
+            for (Integer position : positions) builder.set(position, i, random.nextDouble());
         }
         return builder.build();
     }
 
-    private static List<Integer> getRandomPositions(Random random) {
+    private static List<Integer> RandomPositions(Random random) {
         List<Integer> result = new ArrayList<>();
-        int amountToAdd = random.ints(0, SIZE / 2)
+        int nonzeros = random.ints(0, SIZE / 2)
                 .findFirst()
                 .getAsInt();
-        for (int i = 0; i < amountToAdd; i++) {
+        for (int i = 0; i < nonzeros; i++) {
             result.add(random.ints(0, SIZE)
                     .findFirst()
                     .getAsInt());

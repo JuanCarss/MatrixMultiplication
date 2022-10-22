@@ -11,15 +11,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MtxToSparseDeserializer implements MatrixDeserializer {
+public class MtxToSparseMatrixDeserializer implements MatrixDeserializer {
 
     private final List<SparseMatrix.Coordinate> items = new ArrayList<>();
     private int size;
 
     @Override
     public SparseMatrix deserialize(String filename) {
-        InputStream is = MtxToSparseDeserializer.getInputStream(filename);
-        BufferedReader reader = MtxToSparseDeserializer.getBufferedReader(is);
+        InputStream is = MtxToSparseMatrixDeserializer.getInputStream(filename);
+        BufferedReader reader = MtxToSparseMatrixDeserializer.getBufferedReader(is);
         return readFile(reader);
     }
 

@@ -18,7 +18,6 @@ public class CcsMatrix implements Matrix {
 
     @Override
     public double value(int row, int col) {
-        if (row > size() || col > size()) throw new RuntimeException("Exceeded the matrix length");
         return IntStream.range(colPointers[col], colPointers[col + 1])
                 .filter(currentValueId -> rows[currentValueId] == row)
                 .mapToDouble(currentValueId -> values[currentValueId]).findFirst().orElse(0d);

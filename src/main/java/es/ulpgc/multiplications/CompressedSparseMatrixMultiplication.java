@@ -12,22 +12,22 @@ public class CompressedSparseMatrixMultiplication implements Multiplication {
     public Matrix execute(Matrix a, Matrix b) {
         checkIsCrs(a);
         checkIsCcs(b);
-        CrsMatrix A = (CrsMatrix) a;
-        CcsMatrix B = (CcsMatrix) b;
+        CrsMatrix crsMatrix = (CrsMatrix) a;
+        CcsMatrix ccsMatrix = (CcsMatrix) b;
         int size = a.size();
         SparseMatrixBuilder builder = new SparseMatrixBuilder(size);
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                int ii = A.rowPointers[i];
-                int iEnd = A.rowPointers[i+1];
-                int jj = B.colPointers[j];
-                int jEnd = B.colPointers[j+1];
+                int ii = crsMatrix.rowPointers[i];
+                int iEnd = crsMatrix.rowPointers[i+1];
+                int jj = ccsMatrix.colPointers[j];
+                int jEnd = ccsMatrix.colPointers[j+1];
                 double sum = 0;
                 while (ii < iEnd && jj < jEnd) {
-                    int aa = A.columns[ii];
-                    int bb = B.rows[jj];
+                    int aa = crsMatrix.columns[ii];
+                    int bb = ccsMatrix.rows[jj];
                     if (aa == bb) {
-                        sum += A.values[ii] * B.values[jj];
+                        sum += crsMatrix.values[ii] * ccsMatrix.values[jj];
                         ii++;
                         jj++;
                     }

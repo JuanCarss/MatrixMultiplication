@@ -13,12 +13,12 @@ public class CcsCompressor implements MatrixCompressor {
     private final List<Integer> rows = new ArrayList<>();
     private final int[] columnPointers;
     private final List<Double> compressedValues = new ArrayList<>();
-    private final double[][] allMatrixValues;
+    private final Matrix matrix;
 
     public CcsCompressor(Matrix matrix) {
+        this.matrix = matrix;
         this.size = matrix.size();
         this.columnPointers = new int[size + 1];
-        this.allMatrixValues = matrix.raw();
     }
 
     @Override
@@ -26,9 +26,9 @@ public class CcsCompressor implements MatrixCompressor {
         int colCurrentPointer = 0;
         for (int columnId = 0; columnId < size; columnId++) {
             for (int rowId = 0; rowId < size; rowId++) {
-                if (allMatrixValues[rowId][columnId] == 0) continue;
+                if (matrix.value(rowId, columnId) == 0) continue;
                 rows.add(rowId);
-                compressedValues.add(allMatrixValues[rowId][columnId]);
+                compressedValues.add(matrix.value(rowId, columnId));
                 colCurrentPointer++;
             }
             columnPointers[columnId + 1] = colCurrentPointer;

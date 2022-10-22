@@ -17,9 +17,10 @@ import java.util.Random;
 @Warmup(iterations = 3, time = 2)
 @Measurement(iterations = 3, time = 2)
 public class CompressedSparseMatrixMultiplicationBenchmark {
-    private static final int SIZE = 1024;
+    private static final int SIZE = 20;
     private static final Random random = new Random();
 
+    @Benchmark
     public static void compressedSparseMatrixMultiplication() {executeWith(new CompressedSparseMatrixMultiplication());}
 
     private static void executeWith(Multiplication implementation) {

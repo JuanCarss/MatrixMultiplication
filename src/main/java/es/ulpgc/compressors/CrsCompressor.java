@@ -13,12 +13,12 @@ public class CrsCompressor implements MatrixCompressor {
     private final int[] rowPointers;
     private final List<Integer> columns = new ArrayList<>();
     private final List<Double> compressedValues = new ArrayList<>();
-    private final double[][] allMatrixValues;
+    private final Matrix matrix;
 
     public CrsCompressor(Matrix matrix) {
+        this.matrix = matrix;
         size = matrix.size();
         rowPointers = new int[size + 1];
-        allMatrixValues = matrix.raw();
     }
 
     @Override
@@ -26,9 +26,9 @@ public class CrsCompressor implements MatrixCompressor {
         int rowCurrentPointer = 0;
         for (int rowId = 0; rowId < size; rowId++) {
             for (int columnId = 0; columnId < size; columnId++) {
-                if (allMatrixValues[rowId][columnId] == 0) continue;
+                if (matrix.value(rowId, columnId) == 0) continue;
                 columns.add(columnId);
-                compressedValues.add(allMatrixValues[rowId][columnId]);
+                compressedValues.add(matrix.value(rowId, columnId));
                 rowCurrentPointer++;
             }
             rowPointers[rowId + 1] = rowCurrentPointer
